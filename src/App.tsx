@@ -1,26 +1,45 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+// App.tsx
+import React, { useState } from 'react';
+import CommentList from './commenting/CommentList';
+import { CommentThread } from './commenting/CommentThread';
 
-function App() {
+import { Comment } from './commenting/Comment';
+
+const commentThreads: CommentThread[] = [
+  {
+    id: 1,
+    comments: [
+      { id: 1, text: 'Comment 1.1' },
+      { id: 2, text: 'Comment 1.2' },
+    ],
+  },
+  {
+    id: 2,
+    comments: [
+      { id: 3, text: 'Comment 2.1' },
+      { id: 4, text: 'Comment 2.2' },
+    ],
+  },
+];
+
+const App: React.FC = () => {
+  const [selectedCommentId, setSelectedCommentId] = useState<number | null>(null);
+  const [selectedComment, setSelectedComment] = useState<Comment | null>(null);
+  const handleCommentSelect = (comment: Comment | null) => {
+    setSelectedComment(comment);
+    
+  };
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>Comment Threads</h1>
+      <CommentList
+        threads={commentThreads}
+        onSelectComment={() => handleCommentSelect(selectedComment)}
+        selectedCommentId={selectedCommentId}
+      />
+     
     </div>
   );
-}
+};
 
 export default App;
